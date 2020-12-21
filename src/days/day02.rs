@@ -4,10 +4,7 @@ use serde::Deserialize;
 use tokio::io::AsyncBufReadExt;
 use tokio::{fs::File, io::BufReader};
 
-pub enum Part {
-    One,
-    Two,
-}
+use crate::days::utils::Part;
 
 #[derive(Debug, Deserialize, Recap)]
 #[recap(regex = r#"(?x)

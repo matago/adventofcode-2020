@@ -2,10 +2,7 @@ use futures::stream::StreamExt;
 use tokio::io::AsyncBufReadExt;
 use tokio::{fs::File, io::BufReader};
 
-pub enum Part {
-    One,
-    Two,
-}
+use crate::days::utils::Part;
 
 pub async fn run(p: Part) -> Result<isize, std::io::Error> {
     match p {

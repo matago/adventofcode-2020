@@ -4,6 +4,8 @@ use tokio::{fs::File, io::BufReader};
 
 use crate::days::utils::Part;
 
+const FILEPATH: &str = "../input/day03.txt";
+
 pub async fn run(p: Part) -> Result<usize, std::io::Error> {
     match p {
         Part::One => part_01().await,
@@ -43,7 +45,7 @@ impl Nav {
 }
 
 async fn part_01() -> Result<usize, std::io::Error> {
-    let reader = BufReader::new(File::open("input/day03.txt").await?);
+    let reader = BufReader::new(File::open(FILEPATH).await?);
     let lines = reader.lines();
 
     let result: Nav = lines
@@ -58,7 +60,7 @@ async fn part_01() -> Result<usize, std::io::Error> {
 }
 
 async fn part_02() -> Result<usize, std::io::Error> {
-    let reader = BufReader::new(File::open("input/day03.txt").await?);
+    let reader = BufReader::new(File::open(FILEPATH).await?);
     let lines = reader.lines();
 
     let results: Vec<Nav> = lines

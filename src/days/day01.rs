@@ -4,6 +4,8 @@ use tokio::{fs::File, io::BufReader};
 
 use crate::days::utils::Part;
 
+const FILEPATH: &str = "../input/day01.txt";
+
 pub async fn run(p: Part) -> Result<isize, std::io::Error> {
     match p {
         Part::One => part_01().await,
@@ -12,7 +14,7 @@ pub async fn run(p: Part) -> Result<isize, std::io::Error> {
 }
 
 async fn part_01() -> Result<isize, std::io::Error> {
-    let reader = BufReader::new(File::open("input/day01.txt").await?);
+    let reader = BufReader::new(File::open(FILEPATH).await?);
     let mut lines = reader.lines();
     let mut candidates: Vec<isize> = Vec::new();
 
@@ -29,7 +31,7 @@ async fn part_01() -> Result<isize, std::io::Error> {
 }
 
 pub async fn part_02() -> Result<isize, std::io::Error> {
-    let reader = BufReader::new(File::open("input/day01.txt").await?);
+    let reader = BufReader::new(File::open(FILEPATH).await?);
     let mut lines = reader.lines();
     let mut candidates: Vec<isize> = Vec::new();
 

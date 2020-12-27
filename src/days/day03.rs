@@ -4,7 +4,7 @@ use tokio::{fs::File, io::BufReader};
 
 use crate::days::utils::Part;
 
-const FILEPATH: &str = "../input/day03.txt";
+const FILEPATH: &str = "./input/day03.txt";
 
 pub async fn run(p: Part) -> Result<usize, std::io::Error> {
     match p {

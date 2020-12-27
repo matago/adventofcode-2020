@@ -6,7 +6,7 @@ use tokio::{fs::File, io::BufReader};
 
 use crate::days::utils::Part;
 
-const FILEPATH: &str = "../input/day02.txt";
+const FILEPATH: &str = "./input/day02.txt";
 #[derive(Debug, Deserialize, Recap)]
 #[recap(regex = r#"(?x)
     (?P<min>\d+)

@@ -1,10 +1,10 @@
 use crate::days::utils::Part;
 use futures::stream::StreamExt;
-use std::str::FromStr;
-use std::{num::ParseIntError, ops::RangeInclusive};
-use tokio::io::AsyncBufReadExt;
-use tokio::io::Result;
-use tokio::{fs::File, io::BufReader};
+use std::ops::RangeInclusive;
+use tokio::{
+    fs::File,
+    io::{AsyncBufReadExt, BufReader, Result},
+};
 
 const FILEPATH: &str = "./input/day05.txt";
 

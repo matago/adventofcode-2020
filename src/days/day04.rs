@@ -1,13 +1,16 @@
 use crate::days::utils::Part;
 use bytes::Bytes;
 use serde::{Deserialize, Serialize};
-
 use std::{str, usize};
-use tokio::io::Result;
-use tokio::stream::StreamExt;
-use tokio::{fs::File, io::BufReader};
-use tokio_util::codec::{FramedRead, LinesCodec};
-use tokio_util::io::StreamReader;
+use tokio::{
+    fs::File,
+    io::{BufReader, Result},
+    stream::StreamExt,
+};
+use tokio_util::{
+    codec::{FramedRead, LinesCodec},
+    io::StreamReader,
+};
 const FILEPATH: &str = "./input/day04.txt";
 
 pub async fn run(p: Part) -> Result<usize> {

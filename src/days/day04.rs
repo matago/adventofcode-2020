@@ -18,7 +18,7 @@ pub async fn run(p: Part) -> Result<usize> {
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
-pub struct Passport {
+struct Passport {
     ecl: Option<String>,
     pid: Option<String>,
     eyr: Option<String>,

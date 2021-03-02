@@ -5,6 +5,7 @@ use structopt::StructOpt;
 
 #[derive(StructOpt, Debug)]
 enum Days {
+    All,
     Day01,
     Day02,
     Day03,
@@ -17,10 +18,12 @@ struct Opt {
     #[structopt(subcommand)]
     day: Days,
 }
-#[tokio::main]
-async fn main() {
-    let opt = Opt::from_args();
-    match opt.day {
+
+async fn runner(day: &Days) -> () {
+    match &day {
+        Days::All => {
+            println!("If this prints something went wrong");
+        }
         Days::Day01 => {
             println!("Day 1.1: {}", day01::run(Part::One).await.unwrap());
             println!("Day 1.2: {}", day01::run(Part::Two).await.unwrap());
@@ -44,6 +47,21 @@ async fn main() {
         Days::Day06 => {
             println!("Day 6.1: {}", day06::run(Part::One).await.unwrap());
             println!("Day 6.2: {}", day06::run(Part::Two).await.unwrap())
+        }
+    }
+}
+#[tokio::main]
+async fn main() {
+    let opt = Opt::from_args();
+
+    match &opt.day {
+        Days::All => {
+            for day in &[Days::Day01,Days::Day02,Days::Day03,Days::Day04,Days::Day05,Days::Day06] {
+                runner(day).await;
+            }
+        }
+        _ => {
+            runner(&opt.day).await;
         }
     }
 }

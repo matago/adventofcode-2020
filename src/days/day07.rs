@@ -52,12 +52,12 @@ async fn gen_bag() -> HashMap<String, Vec<(usize, String)>> {
     return bags;
 }
 
-fn has_child(graph: &HashMap<String, Vec<(usize, String)>>, key: &String, magic: &str) -> bool {
+fn has_child(graph: &HashMap<String, Vec<(usize, String)>>, key: &String, bag_name: &str) -> bool {
     if let Some(children) = graph.get(key) {
         for (_, child) in children {
-            if child == magic {
+            if child == bag_name {
                 return true;
-            } else if has_child(graph, child, magic) {
+            } else if has_child(graph, child, bag_name) {
                 return true;
             }
         }
@@ -65,6 +65,16 @@ fn has_child(graph: &HashMap<String, Vec<(usize, String)>>, key: &String, magic:
     } else {
         false
     }
+}
+
+fn child_bags(graph: &HashMap<String, Vec<(usize, String)>>, key: &String) -> usize {
+    let mut total: usize = 0;
+    if let Some(children) = graph.get(key) {
+        for (n, child) in children {
+            total += n + (n * child_bags(graph, child));
+        }
+    }
+    return total;
 }
 
 async fn part_01() -> Result<usize> {
@@ -81,7 +91,5 @@ async fn part_01() -> Result<usize> {
 async fn part_02() -> Result<usize> {
     let bags = gen_bag().await;
 
-    println!("{:#?}", bags["shiny gold"]);
-
-    Ok(0)
+    Ok(child_bags(&bags, &"shiny gold".to_string()))
 }

@@ -1,5 +1,5 @@
 mod days;
-use days::{day01, day02, day03, day04, day05, day06, utils::Part};
+use days::{day01, day02, day03, day04, day05, day06, day07, utils::Part};
 
 use structopt::StructOpt;
 
@@ -12,6 +12,7 @@ enum Days {
     Day04,
     Day05,
     Day06,
+    Day07
 }
 #[derive(StructOpt)]
 struct Opt {
@@ -47,6 +48,10 @@ async fn runner(day: &Days) -> () {
         Days::Day06 => {
             println!("Day 6.1: {}", day06::run(Part::One).await.unwrap());
             println!("Day 6.2: {}", day06::run(Part::Two).await.unwrap())
+        }
+        Days::Day07 => {
+            println!("Day 7.1: {}", day07::run(Part::One).await.unwrap());
+            println!("Day 7.2: {}", day07::run(Part::Two).await.unwrap())
         }
     }
 }

@@ -2,6 +2,7 @@ use crate::days::utils::Part;
 
 use futures::stream::StreamExt;
 use std::{
+    array::TryFromSliceError,
     collections::HashSet,
     convert::TryInto,
     fmt::Debug,
@@ -49,19 +50,40 @@ fn from_lines(lines: Vec<String>) -> Instructions {
 }
 
 impl Program {
-    fn next(&mut self, instructions: &Instructions) -> () {
-        let command = instructions[self.index];
-        match command.operation {
-            Operation::Nop => {
-                self.index += 1;
+    fn next(&mut self, instructions: &Instructions) -> Option<bool> {
+        match instructions.get(self.index) {
+            Some(command) => {
+                match command.operation {
+                    Operation::Nop => {
+                        self.index += 1;
+                    }
+                    Operation::Acc => {
+                        self.index += 1;
+                        self.accumulator += command.operand;
+                    }
+                    Operation::Jmp => {
+                        self.index = (self.index as isize + command.operand).try_into().unwrap();
+                    }
+                }
+                return Some(true);
             }
-            Operation::Acc => {
-                self.index += 1;
-                self.accumulator += command.operand;
-            }
+            None => return None,
+        }
+    }
+}
+
+impl Command {
+    fn flip(&mut self) -> bool {
+        match self.operation {
             Operation::Jmp => {
-                self.index = (self.index as isize + command.operand).try_into().unwrap();
+                self.operation = Operation::Nop;
+                return true;
             }
+            Operation::Nop => {
+                self.operation = Operation::Jmp;
+                return true;
+            }
+            _ => return false,
         }
     }
 }
@@ -107,5 +129,30 @@ async fn part_01() -> Result<usize> {
 }
 
 async fn part_02() -> Result<usize> {
+    let reader = BufReader::new(File::open(FILEPATH).await?);
+
+    let lines: Vec<String> = reader.lines().map(|l| l.unwrap()).collect().await;
+
+    let mut tapes = from_lines(lines);
+
+    for i in 0..tapes.len() {
+        let mut program: Program = Program::default();
+        let mut history: HashSet<usize> = HashSet::new();
+
+        let mut cmd = tapes[i];
+
+        if cmd.flip() {
+            tapes[i] = cmd;
+            while history.insert(program.index) {
+                if let Some(_) = program.next(&tapes) {
+                } else {
+                    println!("Program terminated on None");
+                    return Ok(program.accumulator.try_into().unwrap());
+                }
+            }
+            cmd.flip();
+            tapes[i] = cmd;
+        }
+    }
     Ok(0)
 }

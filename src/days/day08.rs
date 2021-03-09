@@ -2,7 +2,6 @@ use crate::days::utils::Part;
 
 use futures::stream::StreamExt;
 use std::{
-    array::TryFromSliceError,
     collections::HashSet,
     convert::TryInto,
     fmt::Debug,
